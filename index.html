@@ -15,6 +15,7 @@
 <meta name="twitter:image" content="logo.jpg">
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="apple-touch-icon" href="logo.jpg">
+<link rel="preload" as="image" href="ImageDownloader_www.instagram.com_652797182_17915036718324119_1989789824367068098_n.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400&display=swap" rel="stylesheet">
@@ -199,6 +200,7 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
 @media(prefers-reduced-motion:reduce){
   *{transition-duration:0.01ms !important;animation-duration:0.01ms !important}
 }
+#o-mnie,#specjalizacje,#realizacje,#gdzie,#wycena,footer{content-visibility:auto;contain-intrinsic-size:auto 600px}
 </style>
 </head>
 <body>
@@ -406,140 +408,131 @@ Rok założenia      — "Est. 2020" w pasku bocznym hero — zmień jeśli inny
   <button class="lb-btn" id="lb-next" aria-label="Następne">&#8594;</button>
   <span id="lb-counter"></span>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
+;(function() {
+  const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0
+  const nav = document.querySelector('nav') || document.createElement('nav')
 
-  const nav = document.querySelector('nav')
-
-  let lenis = null
-  if (!isTouch) {
-    lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 1.0 })
-    gsap.ticker.add(t => lenis.raf(t * 1000))
-    gsap.ticker.lagSmoothing(0)
-    lenis.on('scroll', ({ scroll }) => {
-      nav.classList.toggle('scrolled', scroll > window.innerHeight * 0.85)
+  const initLightbox = () => {
+    const lb = document.getElementById('lb')
+    const lbImg = document.getElementById('lb-img')
+    const lbCounter = document.getElementById('lb-counter')
+    const slots = [...document.querySelectorAll('.port-slot img')]
+    let cur = 0
+    const lbOpen = i => { cur = i; lbImg.src = slots[cur].src; lbCounter.textContent = `${cur+1} / ${slots.length}`; lb.classList.add('open'); document.body.style.overflow = 'hidden' }
+    const lbClose = () => { lb.classList.remove('open'); document.body.style.overflow = '' }
+    const lbGo = d => { cur = (cur + d + slots.length) % slots.length; lbImg.style.opacity = '0'; setTimeout(() => { lbImg.src = slots[cur].src; lbImg.style.opacity = '1' }, 180); lbCounter.textContent = `${cur+1} / ${slots.length}` }
+    slots.forEach((img, i) => img.parentElement.addEventListener('click', () => lbOpen(i)))
+    document.getElementById('lb-close').addEventListener('click', lbClose)
+    document.getElementById('lb-prev').addEventListener('click', () => lbGo(-1))
+    document.getElementById('lb-next').addEventListener('click', () => lbGo(1))
+    lb.addEventListener('click', e => { if (e.target === lb) lbClose() })
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return
+      if (e.key === 'Escape') lbClose()
+      if (e.key === 'ArrowLeft') lbGo(-1)
+      if (e.key === 'ArrowRight') lbGo(1)
     })
-  } else {
+  }
+
+  if (isTouch) {
     document.documentElement.style.scrollBehavior = 'smooth'
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.85)
     }, { passive: true })
-  }
-
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const id = a.getAttribute('href')
-      if (id === '#') return
-      const t = document.querySelector(id)
-      if (!t) return
-      e.preventDefault()
-      if (lenis) {
-        lenis.scrollTo(t, { offset: -80, duration: 1.4 })
-      } else {
-        t.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const t = document.querySelector(a.getAttribute('href'))
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
+      })
     })
-  })
-
-  gsap.registerPlugin(ScrollTrigger)
-
-  if (reduced) {
-    document.querySelectorAll('.r,.ci,.pi').forEach(el => {
-      el.style.opacity = '1'
-      el.style.clipPath = 'none'
-    })
-    document.querySelector('#h-img').style.clipPath = 'none'
+    document.addEventListener('DOMContentLoaded', initLightbox)
     return
   }
 
-  // Hero timeline
-  const htl = gsap.timeline({ delay: 0.15 })
-  htl
-    .from('#h-label', { opacity: 0, y: 14, duration: 0.7, ease: 'power3.out' })
-    .from('#h-hl', { opacity: 0, y: 40, duration: 1.0, ease: 'power3.out' }, '-=0.4')
-    .from('#h-acc', { opacity: 0, y: 16, duration: 0.8, ease: 'power3.out' }, '-=0.55')
-    .from('#h-body', { opacity: 0, y: 16, duration: 0.8, ease: 'power3.out' }, '-=0.5')
-    .from('#h-btns > *', { opacity: 0, y: 16, stagger: 0.12, duration: 0.7, ease: 'power3.out' }, '-=0.5')
-    .fromTo('#h-img', { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.5, ease: 'power2.out' }, 0)
-    .fromTo('#h-img-inner', { scale: 1.1 }, { scale: 1.0, duration: 1.5, ease: 'power2.out' }, 0)
+  const loadScript = src => new Promise(resolve => {
+    const s = document.createElement('script')
+    s.src = src
+    s.onload = resolve
+    document.head.appendChild(s)
+  })
 
-  // About portrait
-  gsap.fromTo('#ab-portrait',
-    { clipPath: 'inset(100% 0 0 0)' },
-    { clipPath: 'inset(0% 0 0 0)', duration: 1.2, ease: 'power2.out',
-      scrollTrigger: { trigger: '#ab-portrait', start: 'top 82%' } }
-  )
+  document.addEventListener('DOMContentLoaded', () => {
+    initLightbox()
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  // Section text reveals
-  document.querySelectorAll('section, footer').forEach(sec => {
-    const els = sec.querySelectorAll('.r')
-    if (!els.length) return
-    gsap.from(els, {
-      opacity: 0, y: 40, duration: 0.9, stagger: 0.08, ease: 'power3.out',
-      scrollTrigger: { trigger: sec, start: 'top 80%' }
+    Promise.all([
+      loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js'),
+      loadScript('https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js')
+    ]).then(() => loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js'))
+    .then(() => {
+      const lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 1.0 })
+      gsap.ticker.add(t => lenis.raf(t * 1000))
+      gsap.ticker.lagSmoothing(0)
+      lenis.on('scroll', ({ scroll }) => {
+        nav.classList.toggle('scrolled', scroll > window.innerHeight * 0.85)
+      })
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+          const id = a.getAttribute('href')
+          if (id === '#') return
+          const t = document.querySelector(id)
+          if (t) { e.preventDefault(); lenis.scrollTo(t, { offset: -80, duration: 1.4 }) }
+        })
+      })
+
+      gsap.registerPlugin(ScrollTrigger)
+
+      if (reduced) {
+        document.querySelectorAll('.r,.ci,.pi').forEach(el => { el.style.opacity = '1'; el.style.clipPath = 'none' })
+        document.querySelector('#h-img').style.clipPath = 'none'
+        return
+      }
+
+      const htl = gsap.timeline({ delay: 0.15 })
+      htl
+        .from('#h-label', { opacity: 0, y: 14, duration: 0.7, ease: 'power3.out' })
+        .from('#h-hl', { opacity: 0, y: 40, duration: 1.0, ease: 'power3.out' }, '-=0.4')
+        .from('#h-acc', { opacity: 0, y: 16, duration: 0.8, ease: 'power3.out' }, '-=0.55')
+        .from('#h-body', { opacity: 0, y: 16, duration: 0.8, ease: 'power3.out' }, '-=0.5')
+        .from('#h-btns > *', { opacity: 0, y: 16, stagger: 0.12, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+        .fromTo('#h-img', { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.5, ease: 'power2.out' }, 0)
+        .fromTo('#h-img-inner', { scale: 1.1 }, { scale: 1.0, duration: 1.5, ease: 'power2.out' }, 0)
+
+      gsap.fromTo('#ab-portrait',
+        { clipPath: 'inset(100% 0 0 0)' },
+        { clipPath: 'inset(0% 0 0 0)', duration: 1.2, ease: 'power2.out',
+          scrollTrigger: { trigger: '#ab-portrait', start: 'top 82%' } }
+      )
+
+      document.querySelectorAll('section, footer').forEach(sec => {
+        const els = sec.querySelectorAll('.r')
+        if (!els.length) return
+        gsap.from(els, {
+          opacity: 0, y: 40, duration: 0.9, stagger: 0.08, ease: 'power3.out',
+          scrollTrigger: { trigger: sec, start: 'top 80%' }
+        })
+      })
+
+      document.querySelectorAll('.ci').forEach(el => {
+        gsap.fromTo(el,
+          { clipPath: 'inset(100% 0 0 0)' },
+          { clipPath: 'inset(0% 0 0 0)', duration: 1.15, ease: 'power2.out',
+            scrollTrigger: { trigger: el, start: 'top 86%' } }
+        )
+      })
+
+      document.querySelectorAll('.pi').forEach((el, i) => {
+        gsap.fromTo(el,
+          { clipPath: 'inset(100% 0 0 0)' },
+          { clipPath: 'inset(0% 0 0 0)', duration: 1.1, ease: 'power2.out',
+            delay: i * 0.12,
+            scrollTrigger: { trigger: '#realizacje', start: 'top 78%' } }
+        )
+      })
     })
   })
-
-  // Style card image clips
-  document.querySelectorAll('.ci').forEach(el => {
-    gsap.fromTo(el,
-      { clipPath: 'inset(100% 0 0 0)' },
-      { clipPath: 'inset(0% 0 0 0)', duration: 1.15, ease: 'power2.out',
-        scrollTrigger: { trigger: el, start: 'top 86%' } }
-    )
-  })
-
-  const lb = document.getElementById('lb')
-  const lbImg = document.getElementById('lb-img')
-  const lbCounter = document.getElementById('lb-counter')
-  const slots = [...document.querySelectorAll('.port-slot img')]
-  let cur = 0
-
-  const lbOpen = (idx) => {
-    cur = idx
-    lbImg.src = slots[cur].src
-    lbCounter.textContent = `${cur + 1} / ${slots.length}`
-    lb.classList.add('open')
-    document.body.style.overflow = 'hidden'
-  }
-  const lbClose = () => {
-    lb.classList.remove('open')
-    document.body.style.overflow = ''
-  }
-  const lbGo = (dir) => {
-    cur = (cur + dir + slots.length) % slots.length
-    lbImg.style.opacity = '0'
-    setTimeout(() => { lbImg.src = slots[cur].src; lbImg.style.opacity = '1' }, 180)
-    lbCounter.textContent = `${cur + 1} / ${slots.length}`
-  }
-
-  slots.forEach((img, i) => img.parentElement.addEventListener('click', () => lbOpen(i)))
-  document.getElementById('lb-close').addEventListener('click', lbClose)
-  document.getElementById('lb-prev').addEventListener('click', () => lbGo(-1))
-  document.getElementById('lb-next').addEventListener('click', () => lbGo(1))
-  lb.addEventListener('click', e => { if (e.target === lb) lbClose() })
-  document.addEventListener('keydown', e => {
-    if (!lb.classList.contains('open')) return
-    if (e.key === 'Escape') lbClose()
-    if (e.key === 'ArrowLeft') lbGo(-1)
-    if (e.key === 'ArrowRight') lbGo(1)
-  })
-
-  // Portfolio image clips (staggered from section trigger)
-  document.querySelectorAll('.pi').forEach((el, i) => {
-    gsap.fromTo(el,
-      { clipPath: 'inset(100% 0 0 0)' },
-      { clipPath: 'inset(0% 0 0 0)', duration: 1.1, ease: 'power2.out',
-        delay: i * 0.12,
-        scrollTrigger: { trigger: '#realizacje', start: 'top 78%' } }
-    )
-  })
-})
+}())
 </script>
 </body>
 </html>
