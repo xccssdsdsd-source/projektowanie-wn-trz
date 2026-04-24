@@ -15,9 +15,11 @@
 <meta name="twitter:image" content="logo.jpg">
 <link rel="icon" type="image/jpeg" href="logo.jpg">
 <link rel="apple-touch-icon" href="logo.jpg">
-<link rel="preload" as="image" href="ImageDownloader_www.instagram.com_652797182_17915036718324119_1989789824367068098_n.jpg">
+<link rel="preload" as="image" href="ImageDownloader_www.instagram.com_652797182_17915036718324119_1989789824367068098_n.jpg" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -462,10 +464,10 @@ Rok założenia      — "Est. 2020" w pasku bocznym hero — zmień jeśli inny
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     Promise.all([
-      loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js'),
+      loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js')
+        .then(() => loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js')),
       loadScript('https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js')
-    ]).then(() => loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js'))
-    .then(() => {
+    ]).then(() => {
       const lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 1.0 })
       gsap.ticker.add(t => lenis.raf(t * 1000))
       gsap.ticker.lagSmoothing(0)
