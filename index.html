@@ -247,7 +247,7 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
   </div>
   <div class="hero-right">
     <div class="hero-img-wrap" id="h-img">
-      <img id="h-img-inner" src="ImageDownloader_www.instagram.com_652797182_17915036718324119_1989789824367068098_n.jpg" alt="">
+      <img id="h-img-inner" src="ImageDownloader_www.instagram.com_652797182_17915036718324119_1989789824367068098_n.jpg" alt="" fetchpriority="high" decoding="async">
     </div>
   </div>
 </section>
@@ -255,7 +255,7 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
 <section id="o-mnie" aria-label="O studiu">
   <div class="about-in">
     <div class="about-portrait" id="ab-portrait">
-      <img src="onas.jpg" alt="Agata Klimowicz">
+      <img src="onas.jpg" alt="Agata Klimowicz" loading="lazy" decoding="async">
     </div>
     <div class="about-text">
       <span class="label r">O Studiu</span>
@@ -284,7 +284,7 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
   <div class="spec-grid">
     <article class="spec-card r">
       <div class="spec-img ci">
-        <img src="ImageDownloader_www.instagram.com_670809675_17919467082324119_6139749559984180302_n.jpg" alt="">
+        <img src="ImageDownloader_www.instagram.com_670809675_17919467082324119_6139749559984180302_n.jpg" alt="" loading="lazy" decoding="async">
       </div>
       <div class="spec-info">
         <h3 class="spec-name">Modern Farmhouse</h3>
@@ -297,7 +297,7 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
     </article>
     <article class="spec-card r">
       <div class="spec-img ci">
-        <img src="ImageDownloader_www.instagram.com_652797182_17915036718324119_1989789824367068098_n.jpg" alt="">
+        <img src="ImageDownloader_www.instagram.com_652797182_17915036718324119_1989789824367068098_n.jpg" alt="" loading="lazy" decoding="async">
       </div>
       <div class="spec-info">
         <h3 class="spec-name">Hamptons</h3>
@@ -310,7 +310,7 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
     </article>
     <article class="spec-card r">
       <div class="spec-img ci">
-        <img src="ImageDownloader_www.instagram.com_656327755_17917056123324119_6114286914445337400_n.jpg" alt="">
+        <img src="ImageDownloader_www.instagram.com_656327755_17917056123324119_6114286914445337400_n.jpg" alt="" loading="lazy" decoding="async">
       </div>
       <div class="spec-info">
         <h3 class="spec-name">Classic</h3>
@@ -330,12 +330,12 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
     <h2 class="port-h">Projekty.</h2>
   </div>
   <div class="port-grid">
-    <div class="port-slot pi" data-slot="1"><img src="ImageDownloader_www.instagram.com_656247415_17916873150324119_4526104409097293552_n.jpg" alt=""></div>
-    <div class="port-slot pi" data-slot="2"><img src="ImageDownloader_www.instagram.com_652797182_17915036718324119_1989789824367068098_n.jpg" alt=""></div>
-    <div class="port-slot pi" data-slot="3"><img src="ImageDownloader_www.instagram.com_656327755_17917056123324119_6114286914445337400_n.jpg" alt=""></div>
-    <div class="port-slot pi" data-slot="4"><img src="ImageDownloader_www.instagram.com_670809675_17919467082324119_6139749559984180302_n.jpg" alt=""></div>
-    <div class="port-slot pi" data-slot="5"><img src="ImageDownloader_www.instagram.com_643215147_17912309832324119_4385809025299310577_n.jpg" alt=""></div>
-    <div class="port-slot pi" data-slot="6"><img src="ImageDownloader_www.instagram.com_656841897_17917056126324119_6812256245533429357_n.jpg" alt=""></div>
+    <div class="port-slot pi" data-slot="1"><img src="ImageDownloader_www.instagram.com_656247415_17916873150324119_4526104409097293552_n.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="port-slot pi" data-slot="2"><img src="ImageDownloader_www.instagram.com_652797182_17915036718324119_1989789824367068098_n.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="port-slot pi" data-slot="3"><img src="ImageDownloader_www.instagram.com_656327755_17917056123324119_6114286914445337400_n.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="port-slot pi" data-slot="4"><img src="ImageDownloader_www.instagram.com_670809675_17919467082324119_6139749559984180302_n.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="port-slot pi" data-slot="5"><img src="ImageDownloader_www.instagram.com_643215147_17912309832324119_4385809025299310577_n.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="port-slot pi" data-slot="6"><img src="ImageDownloader_www.instagram.com_656841897_17917056126324119_6812256245533429357_n.jpg" alt="" loading="lazy" decoding="async"></div>
   </div>
 </section>
 
@@ -368,6 +368,7 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
         frameborder="0"
         marginheight="0"
         marginwidth="0"
+        loading="lazy"
         title="Formularz darmowej wyceny">Ładowanie formularza...</iframe>
     </div>
   </div>
@@ -411,22 +412,37 @@ Rok założenia      — "Est. 2020" w pasku bocznym hero — zmień jeśli inny
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-  const lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 1.0 })
-  gsap.ticker.add(t => lenis.raf(t * 1000))
-  gsap.ticker.lagSmoothing(0)
+  const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
 
   const nav = document.querySelector('nav')
-  lenis.on('scroll', ({ scroll }) => {
-    nav.classList.toggle('scrolled', scroll > window.innerHeight * 0.85)
-  })
+
+  let lenis = null
+  if (!isTouch) {
+    lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 1.0 })
+    gsap.ticker.add(t => lenis.raf(t * 1000))
+    gsap.ticker.lagSmoothing(0)
+    lenis.on('scroll', ({ scroll }) => {
+      nav.classList.toggle('scrolled', scroll > window.innerHeight * 0.85)
+    })
+  } else {
+    document.documentElement.style.scrollBehavior = 'smooth'
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.85)
+    }, { passive: true })
+  }
 
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const id = a.getAttribute('href')
       if (id === '#') return
       const t = document.querySelector(id)
-      if (t) { e.preventDefault(); lenis.scrollTo(t, { offset: -80, duration: 1.4 }) }
+      if (!t) return
+      e.preventDefault()
+      if (lenis) {
+        lenis.scrollTo(t, { offset: -80, duration: 1.4 })
+      } else {
+        t.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
     })
   })
 
