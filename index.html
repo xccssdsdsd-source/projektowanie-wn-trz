@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>wnetrzarnia.studio — Projektowanie Wnętrz</title>
+<meta name="description" content="Studio projektowania wnętrz — Agata Klimowicz. Modern Farmhouse, Hamptons, Classic.">
+<meta property="og:title" content="wnetrzarnia.studio — Projektowanie Wnętrz">
+<meta property="og:description" content="Studio projektowania wnętrz — Agata Klimowicz. Modern Farmhouse, Hamptons, Classic.">
+<meta property="og:image" content="logo.jpg">
+<meta property="og:image:width" content="643">
+<meta property="og:image:height" content="643">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400&display=swap" rel="stylesheet">
@@ -165,6 +174,15 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
   .port-slot[data-slot="1"]{grid-column:1/3;grid-row:auto;aspect-ratio:16/9}
   .port-slot[data-slot="2"],.port-slot[data-slot="3"],.port-slot[data-slot="4"],.port-slot[data-slot="5"],.port-slot[data-slot="6"]{grid-column:auto;grid-row:auto;aspect-ratio:1}
 }
+.blur-lines{display:flex;flex-direction:column;gap:0.55rem;margin:1rem 0}
+.blur-line{height:0.75rem;border-radius:3px;background:rgba(241,233,219,0.13);backdrop-filter:blur(4px)}
+.blur-line.w-full{width:100%}
+.blur-line.w-4\/5{width:80%}
+.blur-line.w-3\/5{width:60%}
+.blur-line.w-2\/3{width:67%}
+@media(max-width:1023px){
+  .blur-lines{max-width:320px}
+}
 @media(prefers-reduced-motion:reduce){
   *{transition-duration:0.01ms !important;animation-duration:0.01ms !important}
 }
@@ -203,7 +221,11 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
       <span class="label" id="h-label">Studio Projektowania Wnętrz</span>
       <h1 class="hero-hl" id="h-hl">Wnętrza<br>z duszą.</h1>
       <p class="hero-acc" id="h-acc">Modern Farmhouse. Hamptons. Classic.</p>
-      <p class="hero-body" id="h-body">Projekty, które łączą charakter miejsca z charakterem ludzi, którzy w nim żyją.</p>
+      <div class="blur-lines" id="h-body" style="margin:0 0 2.5rem">
+        <div class="blur-line w-full"></div>
+        <div class="blur-line w-4\/5"></div>
+        <div class="blur-line w-3\/5"></div>
+      </div>
       <div class="hero-btns" id="h-btns">
         <a href="#wycena" class="btn-p">Darmowa Wycena</a>
         <a href="#realizacje" class="btn-s">Zobacz Realizacje</a>
@@ -220,13 +242,22 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
 <section id="o-mnie" aria-label="O studiu">
   <div class="about-in">
     <div class="about-portrait" id="ab-portrait">
-      <img src="logo.jpg" alt="">
+      <img src="onas.jpg" alt="Agata Klimowicz">
     </div>
     <div class="about-text">
       <span class="label r">O Studiu</span>
       <h2 class="about-h r">Projektuję wnętrza,<br>które oddychają.</h2>
-      <p class="r">Każdy projekt zaczyna się od słuchania. Słucham przestrzeni, słucham ludzi i słucham światła. Tworzę wnętrza, które mają w sobie coś nieuchwytnego — spokój, ciepło i głębię, której nie da się zamówić z katalogu.</p>
-      <p class="r">Pracuję w trzech estetykach: Modern Farmhouse, Hamptons i Classic. Każda z nich to odmienny sposób myślenia o komforcie, materiałach i proporcjach. Wspólny mianownik jest jeden — wnętrze, które naprawdę żyje.</p>
+      <div class="blur-lines r">
+        <div class="blur-line w-full"></div>
+        <div class="blur-line w-4\/5"></div>
+        <div class="blur-line w-full"></div>
+        <div class="blur-line w-3\/5"></div>
+      </div>
+      <div class="blur-lines r" style="margin-top:0.5rem">
+        <div class="blur-line w-full"></div>
+        <div class="blur-line w-2\/3"></div>
+        <div class="blur-line w-4\/5"></div>
+      </div>
       <p class="about-sig r">Agata Klimowicz</p>
     </div>
   </div>
@@ -244,8 +275,11 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
       </div>
       <div class="spec-info">
         <h3 class="spec-name">Modern Farmhouse</h3>
-        <p class="spec-desc">Surowość i ciepło. Naturalne materiały, drewno, len i linia prosta, która nigdy nie nudzi.</p>
-        <a href="#wycena" class="spec-lnk">Zobacz więcej →</a>
+        <div class="blur-lines" style="margin:0.5rem 0 1rem">
+          <div class="blur-line w-full"></div>
+          <div class="blur-line w-4\/5"></div>
+          <div class="blur-line w-3\/5"></div>
+        </div>
       </div>
     </article>
     <article class="spec-card r">
@@ -254,8 +288,11 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
       </div>
       <div class="spec-info">
         <h3 class="spec-name">Hamptons</h3>
-        <p class="spec-desc">Powietrze i przestrzeń. Biel, ryflowania, morskie tony i klasyczny porządek z duszą.</p>
-        <a href="#wycena" class="spec-lnk">Zobacz więcej →</a>
+        <div class="blur-lines" style="margin:0.5rem 0 1rem">
+          <div class="blur-line w-full"></div>
+          <div class="blur-line w-4\/5"></div>
+          <div class="blur-line w-3\/5"></div>
+        </div>
       </div>
     </article>
     <article class="spec-card r">
@@ -264,8 +301,11 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
       </div>
       <div class="spec-info">
         <h3 class="spec-name">Classic</h3>
-        <p class="spec-desc">Symetria i głębia. Kamień, mosiądz i detale, które wygrywają z czasem.</p>
-        <a href="#wycena" class="spec-lnk">Zobacz więcej →</a>
+        <div class="blur-lines" style="margin:0.5rem 0 1rem">
+          <div class="blur-line w-full"></div>
+          <div class="blur-line w-4\/5"></div>
+          <div class="blur-line w-3\/5"></div>
+        </div>
       </div>
     </article>
   </div>
@@ -296,7 +336,13 @@ footer{background:var(--espresso);padding:6rem 3rem 3rem}
     <div>
       <span class="label r">Wycena</span>
       <h2 class="wycena-h r">Darmowa wycena<br>w 48h.</h2>
-      <p class="wycena-body r">Napisz mi o swoim projekcie — metraż, styl, marzenia. Odpiszę w ciągu 48 godzin z wstępną wyceną i terminem konsultacji.</p>
+      <div class="blur-lines r" style="margin:0 0 2.5rem">
+        <div class="blur-line w-full"></div>
+        <div class="blur-line w-4\/5"></div>
+        <div class="blur-line w-3\/5"></div>
+        <div class="blur-line w-full"></div>
+        <div class="blur-line w-2\/3"></div>
+      </div>
       <hr class="wycena-sep">
       <div class="c-row r"><span>☎</span><span>[PASTE_PHONE]</span></div>
       <div class="c-row r"><span>✉</span><span>[PASTE_EMAIL]</span></div>
