@@ -16,7 +16,17 @@ const browser = await chromium.launch()
 const page = await browser.newPage()
 await page.setViewportSize({ width: 1440, height: 900 })
 await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 })
-await page.waitForTimeout(2000)
-await page.screenshot({ path: outPath, fullPage: false })
+await page.waitForTimeout(1200)
+
+// Scroll through the page to fire all ScrollTriggers
+const height = await page.evaluate(() => document.body.scrollHeight)
+for (let y = 0; y <= height; y += 600) {
+  await page.evaluate(s => window.scrollTo(0, s), y)
+  await page.waitForTimeout(80)
+}
+await page.evaluate(() => window.scrollTo(0, 0))
+await page.waitForTimeout(600)
+
+await page.screenshot({ path: outPath, fullPage: true })
 await browser.close()
 console.log('Saved:', outPath)
